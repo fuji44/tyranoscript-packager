@@ -1,7 +1,8 @@
 # tyranoscript-packager
 
 This is a CLI tool for packaging Typescript apps.
-Useful for automation such as linking with CI tools.
+
+The official tool “Tyranno Rider” is difficult to link with external tools, but with this tool you can easily link to CI / CD tools.
 
 - Typescript official web site: https://tyrano.jp/
 - GitHub: https://github.com/ShikemokuMK/tyranoscript
