@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "This is a CLI tool for packaging Typescript apps.",
   "bin": {
-    "tyc": "index.js"
+    "tyrano": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
