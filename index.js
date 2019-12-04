@@ -15,12 +15,12 @@ program
   .option('-n, --name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
   .option('-t, --title <string>', 'Specifies the character string to be displayed in the window title when loading', 'loading...')
   .option('-r, --resizable', 'Specifies whether the window can be resized')
-  .option('-w, --width <number>', 'Specifies the initial width of the window (in pixels)', parseInt, 1280)
-  .option('-H, --height <number>', 'Specifies the initial height of the window (in pixels)', parseInt, 720)
-  .option('--max-width <number>', 'Specifies the max width of the window (in pixels)', parseInt, 1920)
-  .option('--max-height <number>', 'Specifies the max height of the window (in pixels)', parseInt, 1080)
-  .option('--min-width <number>', 'Specifies the min width of the window (in pixels)', parseInt, 640)
-  .option('--min-height <number>', 'Specifies the min height of the window (in pixels)', parseInt, 480)
+  .option('-w, --width <number>', 'Specifies the initial width of the window (in pixels)', (v) => parseInt(v), 1280)
+  .option('-H, --height <number>', 'Specifies the initial height of the window (in pixels)', (v) => parseInt(v), 720)
+  .option('--max-width <number>', 'Specifies the max width of the window (in pixels)', (v) => parseInt(v), 1920)
+  .option('--max-height <number>', 'Specifies the max height of the window (in pixels)', (v) => parseInt(v), 1080)
+  .option('--min-width <number>', 'Specifies the min width of the window (in pixels)', (v) => parseInt(v), 640)
+  .option('--min-height <number>', 'Specifies the min height of the window (in pixels)', (v) => parseInt(v), 480)
   .option('-p, --platforms <items>', 'Specify the platforms you want to package, separated by commas', (items, defaultItems) => {
     return items.split(',').map((item, index, array) => item.trim());
   }, ['win', 'mac'])
@@ -66,10 +66,10 @@ function initPaths(appDir, destDir) {
       'dataDir': path.join(srcAppDirPath, 'data'),
       'tyranoDir': path.join(srcAppDirPath, 'tyrano'),
       'indexHtml': path.join(srcAppDirPath, 'index.html'),
-      'nodeModulesDir': './resources/node_modules',
-      'binWinDir': './resources/binwin',
-      'nwExe': './resources/binwin/nw.exe',
-      'binMacDir': './resources/binmac'
+      'nodeModulesDir': path.join(__dirname, 'resources/node_modules'),
+      'binWinDir': path.join(__dirname, 'resources/binwin'),
+      'nwExe': path.join(__dirname, 'resources/binwin/nw.exe'),
+      'binMacDir': path.join(__dirname, 'resources/binmac')
     },
     'dest': {
       'win': {
