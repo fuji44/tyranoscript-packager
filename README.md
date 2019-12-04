@@ -3,6 +3,8 @@
 This is a CLI tool for packaging Typescript apps.
 Useful for automation such as linking with CI tools.
 
+*It is not yet possible to package apps for macOS.*
+
 ## Installation
 
 If you are unfamiliar with npm, do the following.
