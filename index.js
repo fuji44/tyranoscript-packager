@@ -2,9 +2,6 @@
 
 'use strict';
 
-console.debug(process.argv);
-console.debug(process.env.HOME);
-
 const program = require('commander');
 const fs = require('fs-extra')
 const path = require('path');
@@ -12,7 +9,7 @@ const archiver = require('archiver');
 
 
 program
-  .version('0.0.1')
+  .version('0.1.0')
   .requiredOption('-a, --app-dir <string>', 'Specify the directory of Typescript application')
   .option('-d, --dest-dir <string>', 'Specify the dest directory', './dest')
   .option('-n, --name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
@@ -27,10 +24,17 @@ program
   .option('-p, --platforms <items>', 'Specify the platforms you want to package, separated by commas', (items, defaultItems) => {
     return items.split(',').map((item, index, array) => item.trim());
   }, ['win', 'mac'])
+  .option('-v, --verbose', 'Verbose mode. A detailed log is output to the console')
   .parse(process.argv);
 
+const verbose = program.verbose;
 
 //---------- local functions ----------//
+
+function log(msg, ...params) {
+  if (!verbose) return;
+  console.log.apply(msg, arguments);
+}
 
 function isNotExist(filePath) {
   try {
@@ -83,22 +87,22 @@ function initPaths(appDir, destDir) {
 function validateAppDir(paths) {
   let failed = false;
   if (isNotExist(paths.src.appDir) || canNotRead(paths.src.appDir)) {
-    console.error(`[ERROR] not exist or cannot be read ${paths.src.appDir}`);
+    console.error('[ERROR] not exist or cannot be read :', paths.src.appDir);
     failed = true;
   }
   // data dir
   if (isNotExist(paths.src.dataDir) || canNotRead(paths.src.dataDir)) {
-    console.error(`[ERROR] not exist or cannot be read ${paths.src.dataDir}`);
+    console.error('[ERROR] not exist or cannot be read :', paths.src.dataDir);
     failed = true;
   }
   // tyrano dir
   if (isNotExist(paths.src.tyranoDir) || canNotRead(paths.src.tyranoDir)) {
-    console.error(`[ERROR] not exist or cannot be read ${paths.src.tyranoDir}`);
+    console.error('[ERROR] not exist or cannot be read :', paths.src.tyranoDir);
     failed = true;
   }
   // index.html
   if (isNotExist(paths.src.indexHtml) || canNotRead(paths.src.indexHtml)) {
-    console.error(`[ERROR] not exist or cannot be read ${paths.src.indexHtml}`);
+    console.error('[ERROR] not exist or cannot be read :', paths.src.indexHtml);
     failed = true;
   }
   if (failed) {
@@ -153,10 +157,10 @@ function generatePackageJson(
 function createWriteStream(path) {
   const ws = fs.createWriteStream(path);
   ws.on('close', function() {
-    console.debug(fs.statSync(path).size + ' total bytes');
+    log('Created windows exe file. %d total bytes : %s', fs.statSync(path).size, path);
   });
   ws.on('end', function() {
-    console.debug(`export finished ${path}`);
+    log('export finished', path);
   });
   return ws;
 }
@@ -198,16 +202,18 @@ function createArchive() {
 function copyBinFiles(paths) {
   fs.copySync(paths.src.binWinDir, paths.dest.win.dir, {filter: (src, dest) => {
     if (path.basename(src) === 'nw.exe') return false;
+    if (path.basename(src) === '.gitignore') return false;
     return true;
   }});
 }
 
 
 //---------- main process ----------//
+log('Command options :', process.argv);
 
 // Input validation
 const paths = initPaths(program.appDir, program.destDir);
-console.debug(JSON.stringify(paths));
+log('paths :', JSON.stringify(paths));
 validateAppDir(paths);
 
 // All platform process
@@ -226,13 +232,15 @@ program.platforms.forEach((value, index, array) => {
       writeExeFile(paths, ws);
       writeAppNw(paths, packageJson, ws);
       copyBinFiles(paths);
+      log('Successful packaging for Windows :', paths.dest.win.dir);
       break;
     case 'mac':
       //TODO Implement mac packaging
       // fs.ensureDirSync(paths.dest.mac.dir);
+      // log('Successful packaging for macOS :', paths.dest.mac.dir);
       break;
     default:
-      console.warn(`'${value}' is unsupported. Do nothing.`);
+      console.warn('[WARN] "%s" is unsupported platform. Do nothing.', value);
       break;
   }
 });
