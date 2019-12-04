@@ -24,7 +24,6 @@ program
   .option('--max-height <number>', 'Specifies the max height of the window (in pixels)', parseInt, 1080)
   .option('--min-width <number>', 'Specifies the min width of the window (in pixels)', parseInt, 640)
   .option('--min-height <number>', 'Specifies the min height of the window (in pixels)', parseInt, 480)
-  // .option('-p, --platforms <items>', 'Specify the platforms you want to package, separated by commas', collect, ['win', 'mac'])
   .option('-p, --platforms <items>', 'Specify the platforms you want to package, separated by commas', (items, defaultItems) => {
     return items.split(',').map((item, index, array) => item.trim());
   }, ['win', 'mac'])
