@@ -203,6 +203,7 @@ function copyBinFiles(paths) {
   fs.copySync(paths.src.binWinDir, paths.dest.win.dir, {filter: (src, dest) => {
     if (path.basename(src) === 'nw.exe') return false;
     if (path.basename(src) === '.gitignore') return false;
+    if (path.basename(src) === '.npmignore') return false;
     return true;
   }});
 }
