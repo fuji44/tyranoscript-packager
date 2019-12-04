@@ -9,7 +9,7 @@ const archiver = require('archiver');
 
 
 program
-  .version('0.1.0')
+  .version('0.1.1')
   .option('-a, --app-dir <string>', 'Specify the directory of Typescript application', './')
   .option('-d, --dest-dir <string>', 'Specify the dest directory', './dest')
   .option('-n, --name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
