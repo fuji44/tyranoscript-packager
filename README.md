@@ -7,7 +7,7 @@ The official tool “Tyranno Rider” is difficult to link with external tools, 
 - Typescript official web site: https://tyrano.jp/
 - GitHub: https://github.com/ShikemokuMK/tyranoscript
 
-*It is not yet possible to package apps for macOS.*
+*Currently only packaging for windows is possible. macOS packaging may eventually support it.*
 
 ## Installation
 
