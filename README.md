@@ -3,6 +3,9 @@
 This is a CLI tool for packaging Typescript apps.
 Useful for automation such as linking with CI tools.
 
+- Typescript official web site: https://tyrano.jp/
+- GitHub: https://github.com/ShikemokuMK/tyranoscript
+
 *It is not yet possible to package apps for macOS.*
 
 ## Installation
