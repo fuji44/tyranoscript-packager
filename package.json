@@ -13,7 +13,7 @@
     "url": "git+https://github.com/fuji44/tyranoscript-packager.git"
   },
   "keywords": [
-    "tyranoscript"
+    "tyranoscript", "cli", "command"
   ],
   "author": "fuji44",
   "license": "MIT",
