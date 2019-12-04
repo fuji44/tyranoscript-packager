@@ -7,9 +7,10 @@ const fs = require('fs-extra')
 const path = require('path');
 const archiver = require('archiver');
 
+const packageObj = fs.readJsonSync(path.join(__dirname, 'package.json'))
 
 program
-  .version('0.1.1')
+  .version(packageObj.version)
   .option('-a, --app-dir <string>', 'Specify the directory of Typescript application', './')
   .option('-d, --dest-dir <string>', 'Specify the dest directory', './dest')
   .option('-n, --name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
@@ -23,7 +24,7 @@ program
   .option('--min-height <number>', 'Specifies the min height of the window (in pixels)', (v) => parseInt(v), 480)
   .option('-p, --platforms <items>', 'Specify the platforms you want to package, separated by commas', (items, defaultItems) => {
     return items.split(',').map((item, index, array) => item.trim());
-  }, ['win', 'mac'])
+  }, ['win'])
   .option('-v, --verbose', 'Verbose mode. A detailed log is output to the console')
   .parse(process.argv);
 
@@ -112,23 +113,23 @@ function validateAppDir(paths) {
 
 /**
  * Create a package.json object to bundle with the tyranoscript app.
- * 
+ *
  * See Manifest Format for more details.
  * http://docs.nwjs.io/en/latest/References/Manifest%20Format/
- * 
- * @param {string} name 
- * @param {string} title 
- * @param {boolean} resizable 
- * @param {number} width 
- * @param {number} height 
- * @param {number} maxWidth 
- * @param {number} maxHeight 
- * @param {number} minWidth 
- * @param {number} minHeight 
+ *
+ * @param {string} name
+ * @param {string} title
+ * @param {boolean} resizable
+ * @param {number} width
+ * @param {number} height
+ * @param {number} maxWidth
+ * @param {number} maxHeight
+ * @param {number} minWidth
+ * @param {number} minHeight
  * @return {JSON} package.json Object
  */
 function generatePackageJson(
-  name, title, resizable, 
+  name, title, resizable,
   width, height, maxWidth, maxHeight, minWidth, minHeight) {
   const packageJson = {
     'name': name,
@@ -210,6 +211,7 @@ function copyBinFiles(paths) {
 
 
 //---------- main process ----------//
+
 log('Command options :', process.argv);
 
 // Input validation
@@ -235,11 +237,11 @@ program.platforms.forEach((value, index, array) => {
       copyBinFiles(paths);
       log('Successful packaging for Windows :', paths.dest.win.dir);
       break;
-    case 'mac':
+    // case 'mac':
       //TODO Implement mac packaging
       // fs.ensureDirSync(paths.dest.mac.dir);
       // log('Successful packaging for macOS :', paths.dest.mac.dir);
-      break;
+      // break;
     default:
       console.warn('[WARN] "%s" is unsupported platform. Do nothing.', value);
       break;
