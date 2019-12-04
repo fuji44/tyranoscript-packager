@@ -10,7 +10,7 @@ const archiver = require('archiver');
 
 program
   .version('0.1.0')
-  .requiredOption('-a, --app-dir <string>', 'Specify the directory of Typescript application')
+  .option('-a, --app-dir <string>', 'Specify the directory of Typescript application', './')
   .option('-d, --dest-dir <string>', 'Specify the dest directory', './dest')
   .option('-n, --name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
   .option('-t, --title <string>', 'Specifies the character string to be displayed in the window title when loading', 'loading...')
