@@ -29,7 +29,7 @@ program
   .option('-v, --verbose', 'Verbose mode. A detailed log is output to the console')
   .parse(process.argv);
 
-logger.verbose = program.verbose;
+logger.enable = program.verbose;
 
 //---------- main process ----------//
 
