@@ -2,4 +2,4 @@
 .vscode/
 .editorconfig
 jest.config.js
-src/test
+src/test/
