@@ -1,3 +1,5 @@
-.vscode
+.github/
+.vscode/
 .editorconfig
-.github
+jest.config.js
+src/test
