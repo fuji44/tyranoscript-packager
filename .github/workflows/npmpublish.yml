@@ -1,4 +1,4 @@
-name: Node.js Package
+name: Publish to npmjs
 
 on:
   release:
@@ -8,6 +8,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Cache .npm
+        uses: actions/cache@v1
+        with:
+          path: $HOME/.npm
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
@@ -19,6 +28,15 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Cache .npm
+        uses: actions/cache@v1
+        with:
+          path: $HOME/.npm
+          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
