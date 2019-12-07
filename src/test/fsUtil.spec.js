@@ -1,6 +1,3 @@
-const path = require('path');
-const fs = require('fs');
-const tmp = require('tmp');
 const fsUtil = require('../main/fsUtil');
 
 // ----- isNotExist -------------------- //
@@ -41,16 +38,4 @@ test('canNotRead : Readable file', () => {
 
 test('canNotRead : Not Exist file', () => {
   expect(fsUtil.canNotRead('notExistFilePath')).toBeTruthy();
-});
-
-
-// ----- createWriteStream -------------------- //
-test('createWriteStream : Exist file', () => {
-  const tmpFile = tmp.fileSync();
-  expect(fsUtil.createWriteStream(tmpFile.name)).toBeInstanceOf(fs.WriteStream);
-});
-
-test('createWriteStream : Not Exist file', () => {
-  const tmpDir = tmp.dirSync();
-  expect(fsUtil.createWriteStream(path.join(tmpDir.name, 'testFile'))).toBeInstanceOf(fs.WriteStream);
 });

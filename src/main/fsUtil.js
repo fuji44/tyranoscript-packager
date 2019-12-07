@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const logger = require('./logger');
 
 module.exports.isNotExist = (filePath) => {
   try {
@@ -20,13 +19,3 @@ module.exports.canNotRead = (filePath) => {
   }
 };
 
-module.exports.createWriteStream = (path) => {
-  const ws = fs.createWriteStream(path);
-  ws.on('close', function() {
-    logger.log('Created windows exe file. %d total bytes : %s', fs.statSync(path).size, path);
-  });
-  ws.on('end', function() {
-    logger.log('export finished', path);
-  });
-  return ws;
-};

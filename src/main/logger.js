@@ -1,10 +1,12 @@
 class Logger {
   static log(msg, ...params) {
-    if (!this.enable) return;
-    console.log.apply(msg, arguments);
+    if (this.enableFlag) console.log.apply(msg, arguments);
+  }
+  static enable() {
+    this.enableFlag = true;
   }
 }
 
-Logger.enable = false;
+Logger.enableFlag = false;
 
 module.exports = Logger;
