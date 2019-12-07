@@ -1,4 +1,4 @@
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
 const tar = require('tar');
 const archiver = require('archiver');
@@ -111,9 +111,9 @@ class TyranoscriptPackagerForWindows {
     logger.log('Tyrano app root dir:', tyranoAppRootDir);
     logger.log('NW.js Manifest:', nwjsManifestJson);
     logger.log('Export dir:', destDir);
-    await fs.ensureDir(destDir);
+    await fsUtil.ensureDir(destDir);
     await this.exportGameExe(tyranoAppRootDir, nwjsManifestJson, destDir);
-    await this.copyTyranoBinFiles(destDir)
+    await this.copyTyranoBinFiles(destDir);
   }
 
 
@@ -126,7 +126,7 @@ class TyranoscriptPackagerForWindows {
   }
 
   copyTyranoBinFiles(destDir) {
-    return fs.copy(this.binWinDir, destDir, {filter: (src, dest) => {
+    return fsUtil.copy(this.binWinDir, destDir, {filter: (src, dest) => {
       if (path.basename(src) === 'nw.exe') return false;
       if (path.basename(src) === '.gitignore') return false;
       if (path.basename(src) === '.npmignore') return false;
@@ -141,7 +141,10 @@ class TyranoscriptPackagerForWindows {
    */
   appendNwjsManifest(nwjsManifestJson, archive) {
     return new Promise(resolve => {
-      archive.append(nwjsManifestJson, {name: 'package.json'})
+      archive.append(nwjsManifestJson, {name: 'package.json'});
+      archive.addListener('end', () => {
+        logger.log('Success write Tyrano manifest to archive');
+      });
       resolve();
     })
   }
@@ -157,6 +160,9 @@ class TyranoscriptPackagerForWindows {
       archive.directory(path.join(tyranoAppRootDir, 'data'), 'data');
       archive.directory(path.join(tyranoAppRootDir, 'tyrano'), 'tyrano');
       archive.file(path.join(tyranoAppRootDir, 'index.html'), {name: 'index.html'});
+      archive.addListener('end', () => {
+        logger.log('Success write Tyrano app contents to archive');
+      });
       resolve();
     })
   }
@@ -199,12 +205,11 @@ class TyranoscriptPackagerForWindows {
    */
   writeBinary(ws, binaryPath) {
     return new Promise(resolve => {
-      try {
-        ws.write(new Uint8Array(Buffer.from(fs.readFileSync(binaryPath))));
-      } catch (err) {
-        throw err;
-      }
-      resolve();
+      ws.write(new Uint8Array(Buffer.from(fs.readFileSync(binaryPath))), (err) => {
+        if (err) throw err;
+        logger.log('Success write binary', binaryPath);
+        resolve();
+      });
     });
   }
 }

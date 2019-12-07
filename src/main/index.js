@@ -3,7 +3,7 @@
 'use strict';
 
 const program = require('commander');
-const fs = require('fs-extra');
+const fs = require('fs');
 const path = require('path');
 const logger = require('./logger');
 
@@ -13,7 +13,7 @@ const TyPackagerForWindows = require('./TyranoscriptPackagerForWindows')
 //---------- initialize commander ----------//
 
 program
-  .version(fs.readJsonSync(path.join(__dirname, '../../package.json')).version)
+  .version(JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'))).version)
   .option('-a, --app-dir <string>', 'Specify the directory of Typescript application', './')
   .option('-d, --dest-dir <string>', 'Specify the dest directory', './dest')
   .option('-n, --name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
@@ -50,8 +50,10 @@ program.platforms.forEach((value, index, array) => {
         program.width, program.height, program.maxWidth, program.maxHeight, program.minWidth, program.minHeight
       );
       const destWinDir = path.join(path.resolve(program.destDir), 'win');
-      tyTackager.package(appRootDir, manifest, destWinDir);
-      logger.log('Successful packaging for Windows :', destWinDir);
+      const promise = tyTackager.package(appRootDir, manifest, destWinDir);
+      promise.then(() => {
+        logger.log('Successful packaging for Windows :', destWinDir);
+      });
       break;
     // case 'mac':
       //TODO Implement mac packaging

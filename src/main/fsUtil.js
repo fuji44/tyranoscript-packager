@@ -1,4 +1,6 @@
-const fs = require('fs-extra');
+const fs = require('fs');
+const ncp = require('ncp');
+const mkdirp = require('mkdirp');
 
 module.exports.isNotExist = (filePath) => {
   try {
@@ -19,3 +21,20 @@ module.exports.canNotRead = (filePath) => {
   }
 };
 
+module.exports.ensureDir = (dir) => {
+  return new Promise(resolve => {
+    mkdirp(dir, (err) => {
+      if (err) throw err;
+      resolve();
+    });
+  });
+}
+
+module.exports.copy = (src, dest, options) => {
+  return new Promise(resolve => {
+    ncp(src, dest, options, (err) => {
+      if (err) throw err;
+      resolve();
+    });
+  });
+}
