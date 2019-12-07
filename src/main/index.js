@@ -16,7 +16,8 @@ program
   .version(JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'))).version)
   .option('-a, --app-dir <string>', 'Specify the directory of Typescript application', './')
   .option('-d, --dest-dir <string>', 'Specify the dest directory', './dest')
-  .option('-n, --name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
+  .option('-n, --game-name <string>', 'Specify the name of the game. If omitted, the app-dir name is used')
+  .option('-e, --exe-name <string>', 'Specify the exe file name of the game. Do not write the extension (.exe). If omitted, the app-dir name is used')
   .option('-t, --title <string>', 'Specifies the character string to be displayed in the window title when loading', 'loading...')
   .option('-r, --resizable', 'Specifies whether the window can be resized')
   .option('-w, --width <number>', 'Specifies the initial width of the window (in pixels)', (v) => parseInt(v), 1280)
@@ -45,14 +46,17 @@ program.platforms.forEach((value, index, array) => {
       TyPackagerForWindows.validateAppDir(appRootDir);
       const tyTackager = new TyPackagerForWindows();
       const manifest = tyTackager.generateNwjsManifestJson(
-        program.name ? path.basename(appRootDir) : program.name,
+        program.gameName ? program.gameName : path.basename(appRootDir),
         program.title, program.resizable ? true : false,
         program.width, program.height, program.maxWidth, program.maxHeight, program.minWidth, program.minHeight
       );
       const destWinDir = path.join(path.resolve(program.destDir), 'win');
-      const promise = tyTackager.package(appRootDir, manifest, destWinDir);
+      const promise = tyTackager.package(
+        appRootDir, manifest, destWinDir,
+        program.exeName ? program.exeName : path.basename(appRootDir)
+      );
       promise.then(() => {
-        logger.log('Successful packaging for Windows :', destWinDir);
+        logger.log('Successful packaging for Windows:', destWinDir);
       });
       break;
     // case 'mac':

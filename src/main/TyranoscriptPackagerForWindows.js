@@ -106,21 +106,24 @@ class TyranoscriptPackagerForWindows {
    * @param {string} tyranoAppRootDir tyranoscript app root dir path string.
    * @param {string} nwjsManifestJson NW.js manifest file format string.
    * @param {string} destDir packaged tyranoscript app export dir path string.
+   * @param {string} exeFileName Exe file name. Please do not include extension (.exe) in character string.
    */
-  async package(tyranoAppRootDir, nwjsManifestJson, destDir) {
+  async package(tyranoAppRootDir, nwjsManifestJson, destDir, exeFileName) {
+    const exeFilePath = path.join(destDir, exeFileName + '.exe');
     logger.log('Tyrano app root dir:', tyranoAppRootDir);
     logger.log('NW.js Manifest:', nwjsManifestJson);
     logger.log('Export dir:', destDir);
+    logger.log('Game exe file path:', exeFilePath);
     await fsUtil.ensureDir(destDir);
-    await this.exportGameExe(tyranoAppRootDir, nwjsManifestJson, destDir);
+    await this.exportGameExe(tyranoAppRootDir, nwjsManifestJson, exeFilePath);
     await this.copyTyranoBinFiles(destDir);
   }
 
 
   // ----- local use function -------------------- //
 
-  async exportGameExe(tyranoAppRootDir, nwjsManifestJson, destDir) {
-    const ws = fs.createWriteStream(path.join(destDir, 'game.exe'));
+  async exportGameExe(tyranoAppRootDir, nwjsManifestJson, exeFilePath) {
+    const ws = fs.createWriteStream(exeFilePath);
     await this.writeNwExe(ws);
     await this.writeTyranoAppZip(ws, tyranoAppRootDir, nwjsManifestJson);
   }
@@ -207,7 +210,7 @@ class TyranoscriptPackagerForWindows {
     return new Promise(resolve => {
       ws.write(new Uint8Array(Buffer.from(fs.readFileSync(binaryPath))), (err) => {
         if (err) throw err;
-        logger.log('Success write binary', binaryPath);
+        logger.log('Success write binary:', binaryPath);
         resolve();
       });
     });
