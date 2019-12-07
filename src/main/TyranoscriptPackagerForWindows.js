@@ -109,7 +109,7 @@ class TyranoscriptPackagerForWindows {
    */
   async package(tyranoAppRootDir, nwjsManifestJson, destDir) {
     logger.log('Tyrano app root dir:', tyranoAppRootDir);
-    logger.log('NW.js Manifest:', manifest);
+    logger.log('NW.js Manifest:', nwjsManifestJson);
     logger.log('Export dir:', destDir);
     await fs.ensureDir(destDir);
     await this.exportGameExe(tyranoAppRootDir, nwjsManifestJson, destDir);
