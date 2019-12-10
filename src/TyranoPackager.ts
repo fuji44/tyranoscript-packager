@@ -227,8 +227,8 @@ export class WindowsTyranoPackager extends GeneralTyranoPackager {
     super();
     this.nwjsExePath = path.join(__dirname, "../resources/win/bin/nw.exe");
     this.binWinDirPath = path.join(__dirname, "../resources/win/bin");
-    log.debug("nwjsExePath:", this.nwjsExePath);
-    log.debug("binWinDir:", this.binWinDirPath);
+    log.debug("nwjsExePath : %s", this.nwjsExePath);
+    log.debug("binWinDir : %s", this.binWinDirPath);
   }
 
   // ---------- Override method ---------- //
@@ -277,7 +277,7 @@ export class WindowsTyranoPackager extends GeneralTyranoPackager {
     return new Promise(resolve => {
       ws.write(new Uint8Array(Buffer.from(fs.readFileSync(binaryPath))), (err) => {
         if (err) throw err;
-        log.debug("Success write binary:", binaryPath);
+        log.debug("Success write binary : %s", binaryPath);
         resolve();
       });
     });
