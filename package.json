@@ -10,7 +10,8 @@
     "watch": "tsc -w",
     "build": "tsc",
     "pretest": "tsc",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "prepublishOnly": "tsc"
   },
   "repository": {
