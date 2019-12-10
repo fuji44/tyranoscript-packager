@@ -238,6 +238,7 @@ export class WindowsTyranoPackager extends GeneralTyranoPackager {
       result.messages.forEach((value: string, index: number, array: string[]) => {
         log.error(value);
       });
+      log.error("Failed to package Windows app");
       return;
     }
 
@@ -246,6 +247,7 @@ export class WindowsTyranoPackager extends GeneralTyranoPackager {
     const ws = fs.createWriteStream(destExeFilePath);
     await this.exportGameExe(ws, param.tyranoAppDirPath, param.nwjsManifest);
     await this.copyTyranoBinFiles(param.destDirPath);
+    log.info("Successfully packaged for Windows");
   }
 
   // ---------- Other method ---------- //
