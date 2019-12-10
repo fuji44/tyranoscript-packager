@@ -8,9 +8,10 @@
   "scripts": {
     "clean": "rimraf dest lib",
     "watch": "tsc -w",
+    "prepare": "tsc",
     "build": "tsc",
-    "test": "jest --coverage",
-    "prepare": "tsc"
+    "pretest": "tsc",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
