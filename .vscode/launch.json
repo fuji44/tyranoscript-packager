@@ -1,0 +1,39 @@
+{
+  // https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/jest/bin/jest.js",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229,
+      "env": {"NODE_ENV": "development"}
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch help",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/lib/index.js",
+      "args": ["--help"],
+      // "env": {"NODE_ENV": "development"}
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Specify not found dest",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/lib/index.js",
+      "args": ["-v", "-a", "${workspaceFolder}/src/test/dummyTyranoApp/correct", "-d", "./dest/package", "-n", "ゲーム名", "-e", "実行ファイル"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
