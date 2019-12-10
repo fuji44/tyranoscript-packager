@@ -1,5 +1,8 @@
 # tyranoscript-packager
 
+[![Github Action](https://github.com/fuji44/tyranoscript-packager/workflows/Publish%20to%20npmjs/badge.svg)](https://github.com/fuji44/tyranoscript-packager)
+[![npm version](https://badge.fury.io/js/tyranoscript-packager.svg)](https://badge.fury.io/js/tyranoscript-packager)
+
 This is a CLI tool for packaging Tyranoscript apps.
 
 The official tool “Tyranno Rider” is difficult to link with external tools, but with this tool you can easily link to CI / CD tools.
