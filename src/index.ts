@@ -4,7 +4,7 @@ import fs from "fs"
 import path from "path"
 import program from "commander"
 import { GeneralTyranoPackager, Platform } from "./TyranoPackager"
-import { Logger } from "./Logger"
+import { Logger, Level } from "./Logger"
 
 
 // ---------- initialize commander ---------- /
@@ -37,7 +37,8 @@ program
 
 // ---------- main process ---------- //
 
-const log = Logger.createLogger();
+const log = Logger.instance;
+if (program.verbose) log.level = Level.DEBUG;
 log.debug("Command options : %s", JSON.stringify(program.opts(), null, "  "));
 
 program.platforms.forEach((platform: string, index: number, array: any[]) => {

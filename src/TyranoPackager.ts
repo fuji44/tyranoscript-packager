@@ -7,7 +7,7 @@ import * as fsUtil from "./fsUtil"
 import { NwjsManifest, NwjsManifestPosition } from "./NwjsManifest"
 import { Logger } from "./Logger"
 
-const log = Logger.createLogger();
+const log = Logger.instance;
 
 // ========== Value Object ========== //
 
