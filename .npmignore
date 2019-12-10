@@ -1,5 +1,9 @@
 .github/
 .vscode/
+dest/
+lib/**/*.map
+lib/test/
+src/
 .editorconfig
 jest.config.js
-src/test/
+tsconfig.json

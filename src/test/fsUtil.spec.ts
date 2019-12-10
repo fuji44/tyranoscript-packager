@@ -1,4 +1,4 @@
-const fsUtil = require('../main/fsUtil');
+import * as fsUtil from "../fsUtil";
 
 // ----- isNotExist -------------------- //
 test('isNotExist : Exist file', () => {

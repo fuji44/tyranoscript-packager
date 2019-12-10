@@ -1,18 +1,18 @@
-const fs = require('fs');
-const ncp = require('ncp');
-const mkdirp = require('mkdirp');
+import fs from "fs"
+import ncp from "ncp"
+import mkdirp from "mkdirp"
 
-module.exports.isNotExist = (filePath) => {
+export function isNotExist(filePath: string) {
   try {
     fs.statSync(filePath);
   } catch (err) {
-    if(err.code === 'ENOENT')
+    if(err.code === "ENOENT")
       return true;
   }
   return false;
 };
 
-module.exports.canNotRead = (filePath) => {
+export function canNotRead(filePath: string) {
   try {
     fs.accessSync(filePath, fs.constants.R_OK);
     return false;
@@ -21,7 +21,7 @@ module.exports.canNotRead = (filePath) => {
   }
 };
 
-module.exports.ensureDir = (dir) => {
+export function ensureDir(dir: string) {
   return new Promise(resolve => {
     mkdirp(dir, (err) => {
       if (err) throw err;
@@ -30,7 +30,7 @@ module.exports.ensureDir = (dir) => {
   });
 }
 
-module.exports.copy = (src, dest, options) => {
+export function copy(src: string, dest: string, options: ncp.Options) {
   return new Promise(resolve => {
     ncp(src, dest, options, (err) => {
       if (err) throw err;
