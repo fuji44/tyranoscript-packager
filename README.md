@@ -12,6 +12,10 @@ The official tool “Tyranno Rider” is difficult to link with external tools, 
 
 *Currently only packaging for windows is possible. macOS packaging may eventually support it.*
 
+Please refer to the [NW.js documentation](http://docs.nwjs.io/en/latest/For%20Users/Package%20and%20Distribute/) for information on packaging desktop apps.
+I think that more advanced packaging can be done by using `nwjs-builder-phoenix`.
+
+
 ## Installation
 
 If you are unfamiliar with npm, do the following.
