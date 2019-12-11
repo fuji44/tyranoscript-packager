@@ -5,7 +5,7 @@
 
 This is a CLI tool for packaging Tyranoscript apps.
 
-The official tool “Tyranno Rider” is difficult to link with external tools, but with this tool you can easily link to CI / CD tools.
+The official tool “Tyranno Rider” is difficult to link with external tools. Since this tool is a simple CLI tool, it can be easily integrated with CI / CD tools.
 
 - Tyranoscript official web site: https://tyrano.jp/
 - GitHub: https://github.com/ShikemokuMK/tyranoscript
