@@ -2,7 +2,7 @@
 
 import fs from "fs"
 import path from "path"
-import program from "commander"
+import { Command } from "commander"
 import { GeneralTyranoPackager, Platform } from "./TyranoPackager"
 import { Logger, Level } from "./Logger"
 
@@ -11,6 +11,7 @@ import { Logger, Level } from "./Logger"
 
 const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, "../package.json")).toString());
 
+const program = new Command();
 program
   .name("tyrano")
   .usage("[options]")
@@ -37,11 +38,12 @@ program
 
 // ---------- main process ---------- //
 
+const options = program.opts();
 const log = Logger.instance;
-if (program.verbose) log.level = Level.DEBUG;
+if (options.verbose) log.level = Level.DEBUG;
 log.debug("Command options : %s", JSON.stringify(program.opts(), null, "  "));
 
-program.platforms.forEach((platform: string, index: number, array: any[]) => {
+options.platforms.forEach((platform: string, index: number, array: any[]) => {
   const packager = GeneralTyranoPackager.instance(Platform.valueOf(platform));
   packager.package(GeneralTyranoPackager.createParameter(platform, program.opts()));
 });

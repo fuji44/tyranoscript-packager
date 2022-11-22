@@ -5,8 +5,8 @@ import mkdirp from "mkdirp"
 export function isNotExist(filePath: string) {
   try {
     fs.statSync(filePath);
-  } catch (err) {
-    if(err.code === "ENOENT")
+  } catch (err: any) {
+    if (err.code === "ENOENT")
       return true;
   }
   return false;
@@ -22,19 +22,14 @@ export function canNotRead(filePath: string) {
 };
 
 export function ensureDir(dir: string) {
-  return new Promise(resolve => {
-    mkdirp(dir, (err) => {
-      if (err) throw err;
-      resolve();
-    });
-  });
+  return mkdirp(dir);
 }
 
 export function copy(src: string, dest: string, options: ncp.Options) {
   return new Promise(resolve => {
     ncp(src, dest, options, (err) => {
       if (err) throw err;
-      resolve();
+      resolve("success");
     });
   });
 }

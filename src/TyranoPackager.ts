@@ -179,7 +179,7 @@ export abstract class GeneralTyranoPackager implements TyranoPackager {
       file: nodeModulesTarPath,
       onentry: (entry: tar.ReadEntry) => {
         if (entry.type === "File") {
-          archive.append(entry as any, {name: entry.path});
+          archive.append(entry as any, { name: entry.path });
         }
       }
     });
@@ -195,11 +195,11 @@ export abstract class GeneralTyranoPackager implements TyranoPackager {
     return new Promise(resolve => {
       archive.directory(path.join(tyranoAppRootDir, "data"), "data");
       archive.directory(path.join(tyranoAppRootDir, "tyrano"), "tyrano");
-      archive.file(path.join(tyranoAppRootDir, "index.html"), {name: "index.html"});
+      archive.file(path.join(tyranoAppRootDir, "index.html"), { name: "index.html" });
       archive.addListener("end", () => {
         log.debug("Success write Tyrano app contents to archive");
       });
-      resolve();
+      resolve("success");
     });
   }
 
@@ -210,11 +210,11 @@ export abstract class GeneralTyranoPackager implements TyranoPackager {
    */
   protected appendNwjsManifest(nwjsManifest: NwjsManifest, archive: archiver.Archiver) {
     return new Promise(resolve => {
-      archive.append(JSON.stringify(nwjsManifest), {name: "package.json"});
+      archive.append(JSON.stringify(nwjsManifest), { name: "package.json" });
       archive.addListener("end", () => {
         log.debug("Success write Tyrano manifest to archive");
       });
-      resolve();
+      resolve("success");
     });
   }
 }
@@ -258,12 +258,14 @@ export class WindowsTyranoPackager extends GeneralTyranoPackager {
   }
 
   protected copyTyranoBinFiles(destDir: string) {
-    return fsUtil.copy(this.binWinDirPath, destDir, {filter: (src: string, dest: string) => {
-      if (path.basename(src) === "nw.exe") return false;
-      if (path.basename(src) === ".gitignore") return false;
-      if (path.basename(src) === ".npmignore") return false;
-      return true;
-    }} as ncp.Options);
+    return fsUtil.copy(this.binWinDirPath, destDir, {
+      filter: (src: string, dest: string) => {
+        if (path.basename(src) === "nw.exe") return false;
+        if (path.basename(src) === ".gitignore") return false;
+        if (path.basename(src) === ".npmignore") return false;
+        return true;
+      }
+    } as ncp.Options);
   }
 
   protected writeNwExe(ws: NodeJS.WritableStream) {
@@ -280,7 +282,7 @@ export class WindowsTyranoPackager extends GeneralTyranoPackager {
       ws.write(new Uint8Array(Buffer.from(fs.readFileSync(binaryPath))), (err) => {
         if (err) throw err;
         log.debug("Success write binary : %s", binaryPath);
-        resolve();
+        resolve("success");
       });
     });
   }
