@@ -1,6 +1,6 @@
 {
   "name": "tyranoscript-packager",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "This is a CLI tool for packaging Typescript apps.",
   "bin": {
     "tyrano": "lib/index.js"
