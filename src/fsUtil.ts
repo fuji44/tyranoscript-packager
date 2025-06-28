@@ -1,6 +1,6 @@
 import fs from "fs"
 import ncp from "ncp"
-import mkdirp from "mkdirp"
+import { mkdirp } from "mkdirp"
 
 export function isNotExist(filePath: string) {
   try {

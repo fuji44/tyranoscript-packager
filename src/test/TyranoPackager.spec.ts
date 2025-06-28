@@ -31,7 +31,7 @@ test("GeneralTyranoPackager.instance : supported", () => {
 test("GeneralTyranoPackager.instance : unsupported", () => {
   expect(() => {
     GeneralTyranoPackager.instance(Platform.Unknown);
-  }).toThrowError();
+  }).toThrow();
 });
 
 
@@ -135,7 +135,7 @@ test("GeneralTyranoPackager.createParameter : Unknown platform", () => {
       destDir: "dummyDestDir"
       // unset exeName
     });
-  }).toThrowError("Unsupported platform : dummyPlatform");
+  }).toThrow("Unsupported platform : dummyPlatform");
 });
 
 

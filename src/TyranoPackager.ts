@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 import ncp from "ncp"
-import tar from "tar"
+import { extract, ReadEntry } from "tar"
 import archiver from "archiver"
 import * as fsUtil from "./fsUtil"
 import { NwjsManifest, NwjsManifestPosition } from "./NwjsManifest"
@@ -175,9 +175,9 @@ export abstract class GeneralTyranoPackager implements TyranoPackager {
    * @param {archiver.Archiver} archive
    */
   protected appendTarAllContents(nodeModulesTarPath: string, archive: archiver.Archiver) {
-    return tar.extract({
+    return extract({
       file: nodeModulesTarPath,
-      onentry: (entry: tar.ReadEntry) => {
+      onentry: (entry: ReadEntry) => {
         if (entry.type === "File") {
           archive.append(entry as any, { name: entry.path });
         }
