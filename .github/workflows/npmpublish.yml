@@ -1,8 +1,9 @@
 name: Publish to npmjs
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - v*
 
 permissions:
   id-token: write
@@ -10,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - uses: actions/checkout@v4
       - name: Cache .npm
@@ -30,7 +31,7 @@ jobs:
 
   publish-npm:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - uses: actions/checkout@v4
       - name: Cache .npm
@@ -48,7 +49,7 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --provenance
 
 #   publish-gpr:
 #     needs: build
