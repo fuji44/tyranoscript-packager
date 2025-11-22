@@ -14,18 +14,13 @@ jobs:
     runs-on: ubuntu-slim
     steps:
       - uses: actions/checkout@v4
-      - name: Cache .npm
-        uses: actions/cache@v4
-        with:
-          path: $HOME/.npm
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-${{ env.cache-name }}-
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: npm ci
       - run: npm test
 
@@ -34,22 +29,15 @@ jobs:
     runs-on: ubuntu-slim
     steps:
       - uses: actions/checkout@v4
-      - name: Cache .npm
-        uses: actions/cache@v4
-        with:
-          path: $HOME/.npm
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-${{ env.cache-name }}-
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org/
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+      - name: Update npm
+        run: npm install -g npm@latest
       - run: npm ci
-      - run: npm publish --provenance
+      - run: npm publish
 
 #   publish-gpr:
 #     needs: build
