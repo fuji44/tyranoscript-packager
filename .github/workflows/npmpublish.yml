@@ -17,11 +17,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
       - name: Update npm
         run: npm install -g npm@latest
       - run: npm ci
+      - run: npm audit --audit-level=high
       - run: npm test
 
   publish-npm:
@@ -32,8 +33,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
       - name: Update npm
         run: npm install -g npm@latest
       - run: npm ci
